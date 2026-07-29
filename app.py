@@ -474,8 +474,6 @@ BASE_STYLE = """
   .brand img{width:40px;height:40px;border-radius:9px}
   .brand .way{color:var(--g2)}
   .links{display:flex;align-items:center;gap:20px;flex-wrap:wrap}.links a{color:#e8f5ea;text-decoration:none;font-size:13px;font-weight:700;letter-spacing:.02em}.links a:hover{color:var(--g2)}
-  .links a.navsoc{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line);background:rgba(255,255,255,.03);padding:0}
-  .links a.navsoc:hover{border-color:var(--g2)}
   .navcta{background:linear-gradient(135deg,var(--g1),var(--g2));padding:10px 16px;border-radius:999px;color:var(--btnink)!important;font-weight:800;box-shadow:0 8px 24px rgba(57,231,95,.22)}
   .hero{position:relative;overflow:hidden;padding:70px 24px 58px;background:
      radial-gradient(900px 520px at 78% 8%,rgba(15,155,70,.32),transparent 60%),
@@ -553,7 +551,7 @@ BASE_STYLE = """
     .hcard{max-width:320px;margin:0 auto;width:100%}
     .hcard .frame img{aspect-ratio:16/11}
     .hbadge{left:auto;right:10px;bottom:10px;padding:9px 12px}.hbadge b{font-size:16px}
-    .links a:not(.navcta){display:none}.links a.navsoc{display:grid}
+    .links a:not(.navcta){display:none}
     .band{padding:50px 18px}
   }
 </style>
@@ -564,7 +562,6 @@ NAV = """
   <a class="brand" href="/"><img src="/static/images/logo.svg" alt="Betterway Logistic logo"><span>BETTER<span class="way">WAY</span> LOGISTIC</span></a>
   <div class="links">
     <a href="/#services">Services</a><a href="/#quote">Get a Quote</a><a href="/#coverage">Coverage</a><a href="/contact">Contact</a>
-    <a class="navsoc" href="https://wa.me/""" + WHATSAPP_NUMBER + """" target="_blank" rel="noopener" aria-label="WhatsApp Betterway Logistic"><svg viewBox="0 0 24 24" width="17" height="17" fill="#39e75f"><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.6 1.5 5.2L2 22l4.9-1.4C8.4 21.5 10.2 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2zm5.2 14.1c-.2.6-1.2 1.1-1.7 1.2-.4.1-1 .1-1.6-.1-.4-.1-.9-.3-1.5-.6-2.7-1.2-4.4-3.9-4.6-4.1-.1-.2-1.1-1.4-1.1-2.7s.7-1.9 1-2.2c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.4.2.5.7 1.7.8 1.8.1.2.1.3 0 .5-.1.2-.1.3-.3.5-.1.2-.3.4-.4.5-.2.2-.3.4-.1.7.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.6-.1.2-.2.7-.8.9-1.1.2-.3.4-.2.6-.1.2.1 1.5.7 1.7.8.2.1.4.2.4.3.1.2.1.6-.1 1.2z"/></svg></a>
     <a class="navcta" href="tel:""" + PHONE_TEL + """">Call """ + PHONE_DISPLAY + """</a>
   </div>
 </nav>
