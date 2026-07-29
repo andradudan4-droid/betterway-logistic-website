@@ -469,12 +469,13 @@ BASE_STYLE = """
   body{margin:0;background:var(--bg);color:var(--ink);font-family:Manrope,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
   a{color:var(--g2)} img,video{max-width:100%;display:block}
   .wrap{max-width:1180px;margin:0 auto;width:100%}.narrow{max-width:760px}
-  nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:11px 24px;background:rgba(5,8,6,.86);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
-  .brand{display:flex;align-items:center;gap:11px;color:#fff;text-decoration:none;font-weight:800;letter-spacing:.1em;font-size:16px;font-family:Sora,sans-serif}
+  nav{position:sticky;top:0;z-index:50;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:18px;padding:14px 24px;background:rgba(5,8,6,.86);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+  .brand{grid-column:2;display:flex;align-items:center;gap:11px;color:#fff;text-decoration:none;font-weight:800;letter-spacing:.1em;font-size:16px;font-family:Sora,sans-serif}
   .brand img{width:40px;height:40px;border-radius:9px}
   .brand .way{color:var(--g2)}
-  .links{display:flex;align-items:center;gap:20px;flex-wrap:wrap}.links a{color:#e8f5ea;text-decoration:none;font-size:13px;font-weight:700;letter-spacing:.02em}.links a:hover{color:var(--g2)}
-  .navcta{background:linear-gradient(135deg,var(--g1),var(--g2));padding:10px 16px;border-radius:999px;color:var(--btnink)!important;font-weight:800;box-shadow:0 8px 24px rgba(57,231,95,.22)}
+  .navside{display:flex;align-items:center;gap:20px;flex-wrap:wrap}.navside a{color:#e8f5ea;text-decoration:none;font-size:13px;font-weight:700;letter-spacing:.02em}.navside a:hover{color:var(--g2)}
+  .navside.left{grid-column:1;justify-content:flex-start}
+  .navside.right{grid-column:3;justify-content:flex-end}
   .hero{position:relative;overflow:hidden;padding:70px 24px 58px;background:
      radial-gradient(900px 520px at 78% 8%,rgba(15,155,70,.32),transparent 60%),
      radial-gradient(760px 520px at 8% 96%,rgba(57,231,95,.14),transparent 55%),#050806}
@@ -551,7 +552,7 @@ BASE_STYLE = """
     .hcard{max-width:320px;margin:0 auto;width:100%}
     .hcard .frame img{aspect-ratio:16/11}
     .hbadge{left:auto;right:10px;bottom:10px;padding:9px 12px}.hbadge b{font-size:16px}
-    .links a:not(.navcta){display:none}
+    .navside{display:none}
     .band{padding:50px 18px}
   }
 </style>
@@ -559,11 +560,9 @@ BASE_STYLE = """
 
 NAV = """
 <nav>
+  <div class="navside left"><a href="/#services">Services</a><a href="/#quote">Get a Quote</a></div>
   <a class="brand" href="/"><img src="/static/images/logo.svg" alt="Betterway Logistic logo"><span>BETTER<span class="way">WAY</span> LOGISTIC</span></a>
-  <div class="links">
-    <a href="/#services">Services</a><a href="/#quote">Get a Quote</a><a href="/#coverage">Coverage</a><a href="/contact">Contact</a>
-    <a class="navcta" href="tel:""" + PHONE_TEL + """">Call """ + PHONE_DISPLAY + """</a>
-  </div>
+  <div class="navside right"><a href="/#coverage">Coverage</a><a href="/contact">Contact</a></div>
 </nav>
 """
 
