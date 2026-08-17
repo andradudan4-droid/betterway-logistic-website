@@ -555,6 +555,23 @@ BASE_STYLE = """
     .navside{display:none}
     .band{padding:50px 18px}
   }
+
+  /* cookie consent */
+  .cc-bar{position:fixed;left:16px;right:16px;bottom:16px;z-index:999999;max-width:640px;margin:0 auto;
+    background:rgba(10,10,10,.92);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.12);
+    border-radius:10px;padding:16px 18px;display:none;align-items:center;gap:16px;flex-wrap:wrap;
+    box-shadow:0 20px 50px rgba(0,0,0,.4);transform:translateY(12px);opacity:0;transition:transform .35s ease,opacity .35s ease}
+  .cc-bar.cc-show{display:flex}
+  .cc-bar.cc-in{transform:translateY(0);opacity:1}
+  .cc-bar p{margin:0;color:#eee;font-size:13.5px;line-height:1.5;flex:1 1 260px}
+  .cc-bar a{color:#39e75f;text-decoration:underline}
+  .cc-actions{display:flex;gap:10px;flex:0 0 auto}
+  .cc-btn{font-family:inherit;font-size:13px;font-weight:700;padding:9px 16px;border-radius:6px;cursor:pointer;white-space:nowrap}
+  .cc-accept{background:#39e75f;color:#0a0a0a;border:1px solid #39e75f}
+  .cc-reject{background:transparent;color:#eee;border:1px solid rgba(255,255,255,.3)}
+  .cc-btn:focus-visible{outline:2px solid #39e75f;outline-offset:2px}
+  @media(max-width:640px){.cc-bar{left:10px;right:10px;bottom:10px;padding:14px}.cc-actions{width:100%;justify-content:flex-end}}
+  @media(prefers-reduced-motion:reduce){.cc-bar{transition:none}}
 </style>
 """
 
@@ -584,9 +601,17 @@ FOOTER = """
   <img src="/static/images/logo.svg" alt="Betterway Logistic logo">
   <div style="color:#fff;font-weight:800;letter-spacing:.14em">BETTERWAY LOGISTIC</div>
   <div style="margin-top:6px">South East &amp; South West London &middot; covering Greater London</div>
-  <div style="margin-top:12px"><a href="tel:""" + PHONE_TEL + """">""" + PHONE_DISPLAY + """</a> &nbsp;|&nbsp; <a href="mailto:""" + EMAIL_ADDRESS + """">""" + EMAIL_ADDRESS + """</a> &nbsp;|&nbsp; <a href="/privacy-policy">Privacy Policy</a></div>
+  <div style="margin-top:12px"><a href="tel:""" + PHONE_TEL + """">""" + PHONE_DISPLAY + """</a> &nbsp;|&nbsp; <a href="mailto:""" + EMAIL_ADDRESS + """">""" + EMAIL_ADDRESS + """</a> &nbsp;|&nbsp; <a href="/privacy-policy">Privacy Policy</a> &nbsp;|&nbsp; <a href="/terms">Terms &amp; Conditions</a></div>
 </footer>
 <a class="wa-float" href="https://wa.me/""" + WHATSAPP_NUMBER + """" target="_blank" rel="noopener" aria-label="WhatsApp Betterway Logistic">""" + WA_SVG + """</a>
+
+<div class="cc-bar" id="ccBar" role="region" aria-label="Cookie notice">
+  <p>We use a small number of essential cookies to keep this site working (like remembering your chat session). See our <a href="/privacy-policy">Privacy Policy</a> for details.</p>
+  <div class="cc-actions">
+    <button class="cc-btn cc-reject" id="ccReject" type="button">Reject</button>
+    <button class="cc-btn cc-accept" id="ccAccept" type="button">Accept</button>
+  </div>
+</div>
 """
 
 WIDGET_INCLUDE = '<script src="/widget.js"></script>'
@@ -663,6 +688,38 @@ async function submitQuote(ev){
   btn.disabled = false; btn.textContent = 'Get a Quote';
   return false;
 }
+(function(){
+  var KEY = 'cookieConsent';
+  var bar = document.getElementById('ccBar');
+  if(!bar) return;
+  var stored = null;
+  try { stored = localStorage.getItem(KEY); } catch(e) {}
+
+  function grantAnalytics(){
+  }
+
+  if(stored === 'accepted'){
+    grantAnalytics();
+  } else if(stored !== 'rejected'){
+    bar.classList.add('cc-show');
+    requestAnimationFrame(function(){ bar.classList.add('cc-in'); });
+  }
+
+  function hide(){
+    bar.classList.remove('cc-in');
+    setTimeout(function(){ bar.classList.remove('cc-show'); }, 350);
+  }
+
+  document.getElementById('ccAccept').addEventListener('click', function(){
+    try { localStorage.setItem(KEY, 'accepted'); } catch(e) {}
+    grantAnalytics();
+    hide();
+  });
+  document.getElementById('ccReject').addEventListener('click', function(){
+    try { localStorage.setItem(KEY, 'rejected'); } catch(e) {}
+    hide();
+  });
+})();
 </script>
 """
 
@@ -791,6 +848,33 @@ PRIVACY_PAGE = """
   </div>
 </div></section>""" + FOOTER + SCRIPTS + WIDGET_INCLUDE + "</body></html>"
 
+TERMS_PAGE = """
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>Terms &amp; Conditions - Betterway Logistic</title><meta name="viewport" content="width=device-width, initial-scale=1">""" + BASE_STYLE + """</head><body>""" + NAV + """
+<section class="band"><div class="wrap narrow">
+  <div class="head reveal"><div class="eyebrow">Legal</div><div class="rule"></div><h2>Terms &amp; Conditions</h2><p class="sub">The terms that apply when you book a job with Betterway Logistic.</p></div>
+  <div class="prose reveal">
+    <p>These terms apply to any courier, delivery, man-and-van or collection job booked with Betterway Logistic (&ldquo;we&rdquo;, &ldquo;us&rdquo;). By booking a job you agree to them.</p>
+    <h3>Quotes</h3>
+    <p>Prices given by chat, phone, email or WhatsApp are estimates based on the details you give us. The final price is confirmed once we know the exact size, weight and access involved, and before the job is booked in.</p>
+    <h3>Booking &amp; timing</h3>
+    <p>Same-day slots are subject to availability at the time of booking. We'll always confirm a realistic collection and delivery window before you commit.</p>
+    <h3>Cancellations</h3>
+    <p>We ask for as much notice as possible if a job needs to be cancelled or moved, especially for same-day bookings where a driver may already be en route. Late cancellations may be subject to a reasonable charge.</p>
+    <h3>Goods &amp; liability</h3>
+    <p>Please describe items accurately, including size, weight and anything fragile, so they can be handled properly. We take reasonable care of everything we carry, but we don't carry illegal, dangerous or prohibited goods, and we can't accept liability for items that weren't accurately described or reasonably packaged beforehand.</p>
+    <h3>Access</h3>
+    <p>Please make sure someone is available at both the pickup and delivery address for the agreed window, and that there's reasonable access (parking, stairs, lifts). Delays caused by access issues on the day may affect the price or timing.</p>
+    <h3>Payment</h3>
+    <p>Payment is due as agreed when the quote is confirmed, unless we've arranged a different schedule with you directly (for example, for regular business collections).</p>
+    <h3>Website &amp; chat use</h3>
+    <p>This website and its chat assistant are here to help you get a quote quickly. Nothing shown on the site is a binding price until we've confirmed a job with you directly.</p>
+    <h3>Governing law</h3>
+    <p>These terms are governed by the law of England &amp; Wales.</p>
+    <h3>Contact</h3>
+    <p>Questions about these terms? Email <a href="mailto:""" + EMAIL_ADDRESS + """">""" + EMAIL_ADDRESS + """</a> or call <a href="tel:""" + PHONE_TEL + """">""" + PHONE_DISPLAY + """</a>.</p>
+  </div>
+</div></section>""" + FOOTER + SCRIPTS + WIDGET_INCLUDE + "</body></html>"
+
 WIDGET_JS = """
 (function(){
   var base = new URL(document.currentScript.src).origin;
@@ -833,7 +917,7 @@ def ensure_session():
 
 @app.route("/sitemap.xml")
 def sitemap():
-    pages = ["/", "/services", "/contact", "/privacy-policy"]
+    pages = ["/", "/services", "/contact", "/privacy-policy", "/terms"]
     base = "https://betterwaylogistic.co.uk"
     urls = "".join(f"<url><loc>{base}{p}</loc></url>" for p in pages)
     xml = f'<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{urls}</urlset>'
@@ -868,6 +952,13 @@ def contact():
 def privacy():
     ensure_session()
     return render_template_string(PRIVACY_PAGE)
+
+
+@app.route("/terms")
+@app.route("/terms-and-conditions")
+def terms():
+    ensure_session()
+    return render_template_string(TERMS_PAGE)
 
 
 @app.route("/widget.js")
