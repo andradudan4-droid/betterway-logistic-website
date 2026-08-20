@@ -572,6 +572,7 @@ BASE_STYLE = """
   .cc-btn:focus-visible{outline:2px solid #39e75f;outline-offset:2px}
   @media(max-width:640px){.cc-bar{left:10px;right:10px;bottom:10px;padding:14px}.cc-actions{width:100%;justify-content:flex-end}}
   @media(prefers-reduced-motion:reduce){.cc-bar{transition:none}}
+  body.cc-open .wa-float,body.cc-open #bw-chat-bubble{display:none!important}
 </style>
 """
 
@@ -702,11 +703,13 @@ async function submitQuote(ev){
     grantAnalytics();
   } else if(stored !== 'rejected'){
     bar.classList.add('cc-show');
+    document.body.classList.add('cc-open');
     requestAnimationFrame(function(){ bar.classList.add('cc-in'); });
   }
 
   function hide(){
     bar.classList.remove('cc-in');
+    document.body.classList.remove('cc-open');
     setTimeout(function(){ bar.classList.remove('cc-show'); }, 350);
   }
 
@@ -879,6 +882,7 @@ WIDGET_JS = """
 (function(){
   var base = new URL(document.currentScript.src).origin;
   var bubble = document.createElement('button');
+  bubble.id = 'bw-chat-bubble';
   bubble.innerHTML = 'Chat';
   bubble.setAttribute('aria-label','Open quote assistant');
   bubble.style.cssText='position:fixed;right:22px;bottom:22px;z-index:999999;border:0;border-radius:999px;background:linear-gradient(135deg,#0f9b46,#39e75f);color:#04220d;font-weight:900;padding:15px 18px;box-shadow:0 12px 34px rgba(0,0,0,.34);cursor:pointer';
