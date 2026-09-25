@@ -18,15 +18,25 @@ import os
 import re
 import uuid
 import html
+import hashlib
+import threading
 import base64
 import time
 import requests
 from groq import Groq
 
 app = Flask(__name__)
-app.secret_key = os.environ.get("SECRET_KEY", "dev-secret-key-change-this-later")
+_fallback_secret = hashlib.sha256(
+    (
+        os.environ.get("GROQ_API_KEY", "")
+        + os.environ.get("RESEND_API_KEY", "")
+        + "betterway-logistic-london-v1"
+    ).encode("utf-8")
+).hexdigest()
+app.secret_key = os.environ.get("SECRET_KEY") or _fallback_secret
 app.config["SESSION_COOKIE_SAMESITE"] = "None"
 app.config["SESSION_COOKIE_SECURE"] = True
+app.config["SESSION_COOKIE_HTTPONLY"] = True
 app.config["MAX_CONTENT_LENGTH"] = 12 * 1024 * 1024  # 12 MB
 
 _groq_client = None
@@ -34,6 +44,50 @@ all_conversations = {}
 session_images = {}
 notified_sessions = set()
 chat_activity = {}
+ip_activity = {}
+pending_lead_timers = {}
+MAX_ACTIVE_SESSIONS = 400
+
+
+def _client_ip():
+    forwarded = request.headers.get("X-Forwarded-For", "")
+    if forwarded:
+        return forwarded.split(",")[0].strip()
+    return request.remote_addr or "unknown"
+
+
+def _ip_rate_limited(limit_per_min=30):
+    ip = _client_ip()
+    now = time.time()
+    recent = [t for t in ip_activity.get(ip, []) if now - t < 60]
+    if len(recent) >= limit_per_min:
+        ip_activity[ip] = recent
+        return True
+    recent.append(now)
+    ip_activity[ip] = recent
+    if len(ip_activity) > 1000:
+        cutoff = now - 60
+        for k in list(ip_activity.keys()):
+            if not [t for t in ip_activity[k] if t >= cutoff]:
+                ip_activity.pop(k, None)
+    return False
+
+
+def _prune_sessions():
+    while len(all_conversations) > MAX_ACTIVE_SESSIONS:
+        oldest = next(iter(all_conversations))
+        all_conversations.pop(oldest, None)
+        session_images.pop(oldest, None)
+        chat_activity.pop(oldest, None)
+
+
+@app.after_request
+def _set_security_headers(response):
+    response.headers.setdefault("X-Content-Type-Options", "nosniff")
+    response.headers.setdefault("X-Frame-Options", "SAMEORIGIN")
+    response.headers.setdefault("Referrer-Policy", "strict-origin-when-cross-origin")
+    return response
+
 
 PHONE_DISPLAY = "07982 739925"
 PHONE_TEL = "+447982739925"
@@ -450,12 +504,38 @@ message, on its own line.
 
 BASE_STYLE = """
 <link rel="icon" type="image/svg+xml" href="/static/images/logo.svg">
+<link rel="canonical" href="https://betterwaylogistic.co.uk/">
 <meta name="theme-color" content="#07100a">
+<meta name="robots" content="index, follow">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Betterway Logistic">
 <meta property="og:title" content="Betterway Logistic - Courier &amp; Delivery, South East &amp; South West London">
 <meta property="og:description" content="Same-day and next-day courier, man-with-a-van and regular business collections across Greater London.">
-<meta property="og:image" content="/static/images/logo.svg">
+<meta property="og:image" content="https://betterwaylogistic.co.uk/static/images/logo.svg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "MovingCompany",
+  "name": "Betterway Logistic",
+  "url": "https://betterwaylogistic.co.uk",
+  "logo": "https://betterwaylogistic.co.uk/static/images/logo.svg",
+  "description": "Same-day and next-day courier, man-with-a-van removals and regular business collections across South East, South West and Greater London.",
+  "telephone": "+447982739925",
+  "email": "betterwaylogistic4you@gmail.com",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "London",
+    "addressRegion": "Greater London",
+    "addressCountry": "GB"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 51.4650,
+    "longitude": -0.1050
+  },
+  "areaServed": ["South East London", "South West London", "Greater London"]
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
@@ -540,6 +620,7 @@ BASE_STYLE = """
   .cov{display:grid;grid-template-columns:1.1fr .9fr;gap:26px;align-items:stretch}
   .cov-map{border-radius:20px;overflow:hidden;border:1px solid var(--line);box-shadow:0 18px 50px rgba(0,0,0,.45);background:#0b120d}
   #covmap{height:100%;min-height:400px;width:100%;background:#0b120d}
+  #covmap .leaflet-tile-pane{filter:invert(100%) hue-rotate(180deg) brightness(88%) contrast(92%) grayscale(75%)}
   .leaflet-popup-content-wrapper,.leaflet-popup-tip{background:#101c13;color:#fff}.leaflet-container{font-family:Manrope,sans-serif}
   .cov-list{display:flex;flex-direction:column;justify-content:center}
   .cov-pill{display:inline-flex;align-items:center;gap:8px;align-self:flex-start;font-weight:800;font-size:13px;color:var(--btnink);background:linear-gradient(135deg,var(--g1),var(--g2));padding:9px 15px;border-radius:999px;margin-bottom:18px}
@@ -630,7 +711,7 @@ SCRIPTS = """
   var el=document.getElementById('covmap'); if(!el) return;
   var center=[51.4650,-0.1050];
   var map=L.map(el,{scrollWheelZoom:false,zoomControl:true}).setView(center,10);
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap, &copy; CARTO'}).addTo(map);
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>'}).addTo(map);
   L.circle(center,{radius:16000,color:'#39e75f',weight:2,fillColor:'#39e75f',fillOpacity:.14}).addTo(map);
   L.circleMarker(center,{radius:7,color:'#fff',weight:2,fillColor:'#39e75f',fillOpacity:1}).addTo(map).bindPopup('Betterway Logistic &middot; SE / SW London base');
   setTimeout(function(){map.invalidateSize();},250);
@@ -1003,14 +1084,39 @@ def quote_endpoint():
     return jsonify({"ok": True})
 
 
+def _schedule_lead_fallback(session_id, delay=90.0):
+    old_timer = pending_lead_timers.pop(session_id, None)
+    if old_timer is not None:
+        old_timer.cancel()
+
+    def _fire():
+        pending_lead_timers.pop(session_id, None)
+        if session_id in notified_sessions:
+            return
+        conv = all_conversations.get(session_id)
+        if not conv or not has_contact_info(conv):
+            return
+        notified_sessions.add(session_id)
+        send_lead_email(list(conv), list(session_images.get(session_id, [])))
+
+    t = threading.Timer(delay, _fire)
+    t.daemon = True
+    pending_lead_timers[session_id] = t
+    t.start()
+
+
 @app.route("/chat", methods=["POST"])
 def chat_endpoint():
+    if _ip_rate_limited(limit_per_min=30):
+        return jsonify({"reply": "You're sending messages very quickly - give it a few seconds and try again."})
+
     session_id = session.get("session_id")
     if not session_id:
         session_id = str(uuid.uuid4())
         session["session_id"] = session_id
 
     if session_id not in all_conversations:
+        _prune_sessions()
         all_conversations[session_id] = [{"role": "system", "content": SYSTEM_PROMPT}]
 
     conversation = all_conversations[session_id]
@@ -1058,22 +1164,31 @@ def chat_endpoint():
 
     if session_id not in notified_sessions and has_contact_info(conversation):
         if lead_ready or _looks_like_closing(user_message) or len(conversation) >= 24:
+            old_timer = pending_lead_timers.pop(session_id, None)
+            if old_timer is not None:
+                old_timer.cancel()
             notified_sessions.add(session_id)
             conversation_copy = list(conversation)
             images_copy = list(session_images.get(session_id, []))
             send_lead_email(conversation_copy, images_copy)
+        else:
+            _schedule_lead_fallback(session_id, delay=90.0)
 
     return jsonify({"reply": ai_reply})
 
 
 @app.route("/upload", methods=["POST"])
 def upload_endpoint():
+    if _ip_rate_limited(limit_per_min=20):
+        return jsonify({"reply": "Please wait a moment before uploading another photo."}), 429
+
     session_id = session.get("session_id")
     if not session_id:
         session_id = str(uuid.uuid4())
         session["session_id"] = session_id
 
     if session_id not in all_conversations:
+        _prune_sessions()
         all_conversations[session_id] = [{"role": "system", "content": SYSTEM_PROMPT}]
     conversation = all_conversations[session_id]
 
