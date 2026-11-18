@@ -504,7 +504,6 @@ message, on its own line.
 
 BASE_STYLE = """
 <link rel="icon" type="image/svg+xml" href="/static/images/logo.svg">
-<link rel="canonical" href="https://betterwaylogistic.co.uk/">
 <meta name="theme-color" content="#07100a">
 <meta name="robots" content="index, follow">
 <meta property="og:type" content="website">
@@ -858,7 +857,7 @@ COVERAGE = """
 """
 
 HOME_PAGE = """
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>Courier &amp; Man and Van in South London | Betterway</title>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>Courier &amp; Man and Van in South London | Betterway</title><link rel="canonical" href="https://betterwaylogistic.co.uk/">
 <meta name="description" content="Same-day and next-day courier, man-with-a-van and regular business collections across South East, South West and Greater London.">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 """ + BASE_STYLE + """</head><body>""" + NAV + """
@@ -894,7 +893,7 @@ HOME_PAGE = """
 """ + COVERAGE + FOOTER + SCRIPTS + WIDGET_INCLUDE + "</body></html>"
 
 SERVICES_PAGE = """
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>Services - Betterway Logistic</title><meta name="viewport" content="width=device-width, initial-scale=1">""" + BASE_STYLE + """</head><body>""" + NAV + """
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>Services - Betterway Logistic</title><link rel="canonical" href="https://betterwaylogistic.co.uk/services"><meta name="description" content="Same-day courier, parcel and pallet delivery and man-with-a-van moves across South East and South West London."><meta name="viewport" content="width=device-width, initial-scale=1">""" + BASE_STYLE + """</head><body>""" + NAV + """
 <section class="band"><div class="wrap"><div class="head reveal"><div class="eyebrow">Services</div><div class="rule"></div><h2>Courier, delivery &amp; man-with-a-van.</h2><p class="sub">Based across South East and South West London, covering Greater London on request.</p></div><div class="cards">
 <div class="card reveal"><div class="num">01</div><h3>Same-Day Courier</h3><p>Collected within the hour where possible, delivered across London the same day.</p></div>
 <div class="card reveal"><div class="num">02</div><h3>Next-Day Delivery</h3><p>Book ahead and we'll collect and deliver the following day.</p></div>
@@ -903,7 +902,7 @@ SERVICES_PAGE = """
 </div></div></section>""" + QUOTE_FORM + FOOTER + SCRIPTS + WIDGET_INCLUDE + "</body></html>"
 
 CONTACT_PAGE = """
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>Contact - Betterway Logistic</title><meta name="viewport" content="width=device-width, initial-scale=1">""" + BASE_STYLE + """</head><body>""" + NAV + """
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>Contact - Betterway Logistic</title><link rel="canonical" href="https://betterwaylogistic.co.uk/contact"><meta name="description" content="Get a quick courier or man-with-a-van quote in South London: call, WhatsApp or use the quote form."><meta name="viewport" content="width=device-width, initial-scale=1">""" + BASE_STYLE + """</head><body>""" + NAV + """
 <section class="band"><div class="wrap narrow"><div class="head reveal"><div class="eyebrow">Contact</div><div class="rule"></div><h2>Send us the job details.</h2><p class="sub">Use the quote form for the fastest reply, or get in touch directly.</p></div><div class="contact-box reveal">
 <p><strong style="color:#fff">Phone:</strong> <a href="tel:""" + PHONE_TEL + """">""" + PHONE_DISPLAY + """</a></p>
 <p><strong style="color:#fff">Email:</strong> <a href="mailto:""" + EMAIL_ADDRESS + """">""" + EMAIL_ADDRESS + """</a></p>
@@ -912,7 +911,7 @@ CONTACT_PAGE = """
 </div></div></section>""" + QUOTE_FORM + FOOTER + SCRIPTS + WIDGET_INCLUDE + "</body></html>"
 
 PRIVACY_PAGE = """
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>Privacy Policy - Betterway Logistic</title><meta name="viewport" content="width=device-width, initial-scale=1">""" + BASE_STYLE + """</head><body>""" + NAV + """
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>Privacy Policy - Betterway Logistic</title><link rel="canonical" href="https://betterwaylogistic.co.uk/privacy-policy"><meta name="viewport" content="width=device-width, initial-scale=1">""" + BASE_STYLE + """</head><body>""" + NAV + """
 <section class="band"><div class="wrap narrow">
   <div class="head reveal"><div class="eyebrow">Legal</div><div class="rule"></div><h2>Privacy Policy</h2><p class="sub">How Betterway Logistic handles the information you share through this website.</p></div>
   <div class="prose reveal">
@@ -933,7 +932,7 @@ PRIVACY_PAGE = """
 </div></section>""" + FOOTER + SCRIPTS + WIDGET_INCLUDE + "</body></html>"
 
 TERMS_PAGE = """
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>Terms &amp; Conditions - Betterway Logistic</title><meta name="viewport" content="width=device-width, initial-scale=1">""" + BASE_STYLE + """</head><body>""" + NAV + """
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>Terms &amp; Conditions - Betterway Logistic</title><link rel="canonical" href="https://betterwaylogistic.co.uk/terms"><meta name="viewport" content="width=device-width, initial-scale=1">""" + BASE_STYLE + """</head><body>""" + NAV + """
 <section class="band"><div class="wrap narrow">
   <div class="head reveal"><div class="eyebrow">Legal</div><div class="rule"></div><h2>Terms &amp; Conditions</h2><p class="sub">The terms that apply when you book a job with Betterway Logistic.</p></div>
   <div class="prose reveal">
