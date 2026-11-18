@@ -201,8 +201,10 @@ async function chat(request, env, site) {
   const full = [...conv, { role: "assistant", content: reply }];
   const contact = hasContact(full);
   // As in the Flask apps: send at once when finished, otherwise the browser sends after 90s quiet.
-  const lead = !contact ? null
-    : (ready || CLOSING_RE.test(conv.at(-1).content) || full.length + 1 >= 24) ? "now" : "later";
+  // full.length + 1 counts the system prompt, as the Flask list did.
+  const finished = ready || CLOSING_RE.test(conv.at(-1).content) ||
+    (site.sendNowAfter ? site.sendNowAfter(full) : full.length + 1 >= 24);
+  const lead = !contact ? null : finished ? "now" : "later";
   return json({ reply, lead });
 }
 

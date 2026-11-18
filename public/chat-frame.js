@@ -95,6 +95,7 @@ async function handleFiles(input){
       state.history.push({role:'assistant',content:PHOTO_REPLY});save();
       addMessage(PHOTO_REPLY,'bot');
       if(state.sent){state.sentPhotos=state.photos.length;save();sendFollowUp(dataUrl);}
+      else if(state.hasContact){clearTimeout(timer);timer=setTimeout(sendLead,FALLBACK_MS);}
     }catch(e){addMessage('Sorry, I could not upload that photo. Try another JPG or PNG.','bot')}
   }
 }

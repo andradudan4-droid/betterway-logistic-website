@@ -6,7 +6,6 @@ Settings for this site are in cloudflare/site.json. Output goes to public/.
 """
 import json
 import pathlib
-import re
 import shutil
 import subprocess
 import sys
@@ -34,7 +33,7 @@ def main():
     client = site.app.test_client()
 
     for path, name in CFG["pages"].items():
-        res = client.get(path)
+        res = client.get(path, base_url=CFG.get("base_url", "http://localhost"))
         assert res.status_code == 200, (path, res.status_code)
         html = res.get_data(as_text=True)
         if name in CFG.get("chat_pages", []):
@@ -42,12 +41,12 @@ def main():
         (OUT / name).write_text(html)
 
     for path, name in CFG.get("files", {}).items():
-        res = client.get(path)
+        res = client.get(path, base_url=CFG.get("base_url", "http://localhost"))
         assert res.status_code == 200, (path, res.status_code)
         (OUT / name).write_bytes(res.get_data())
 
-    tracked = subprocess.run(["git", "ls-files", "static"], cwd=ROOT, capture_output=True, text=True, check=True).stdout.split()
-    for rel in tracked:
+    tracked = subprocess.run(["git", "ls-files", "-z", "static"], cwd=ROOT, capture_output=True, text=True, check=True).stdout.split("\0")
+    for rel in filter(None, tracked):
         dest = OUT / rel
         dest.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy(ROOT / rel, dest)
