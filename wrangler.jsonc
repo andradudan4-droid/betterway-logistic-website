@@ -8,9 +8,9 @@
     "run_worker_first": ["/api/*", "/quote"],
     "html_handling": "drop-trailing-slash"
   },
-  // TEST STEP: client key + sender, enquiries to Andra. Live: NOTIFY_TO betterwaylogistic4you@gmail.com.
+  // LIVE: enquiries go to Betterway, sent with their own Resend key.
   "vars": {
-    "NOTIFY_TO": "andradudan4@gmail.com",
+    "NOTIFY_TO": "betterwaylogistic4you@gmail.com",
     "RESEND_FROM": "Better Way Logistic <no-reply@betterwaylogistic.co.uk>",
     "DRY_RUN": "0"
   },
