@@ -1,0 +1,37 @@
+{
+ "site": "https://betterwaylogistic.co.uk",
+ "template": "services.html",
+ "start": "</nav>\n",
+ "end": "<section class=\"band\" id=\"quote\">",
+ "pages": [
+  {
+   "path": "/same-day-courier-london",
+   "title": "Same-Day Courier in South London | Betterway",
+   "desc": "Same-day courier across London from a South East and South West London base. Fast collection, a real person to talk to and a fair upfront price.",
+   "body": "<section class=\"band\"><div class=\"wrap narrow\"><div class=\"head reveal\"><div class=\"eyebrow\">Same-day courier</div><div class=\"rule\"></div><h1>Same-day courier across London</h1><p class=\"sub\">Need it there today? Collected quickly from South East or South West London and delivered across the capital the same day.</p></div><div class=\"prose reveal\"><h3>How it works</h3><p>Tell us what needs moving, where it's being collected from and where it's going. Collection is within the hour where possible, and it's delivered across London the same day.</p><h3>What we carry</h3><p>Parcels, documents, boxes, stock and larger items. If it fits in the van, we can move it.</p><h3>Speak to the driver</h3><p>No call centres. You message or call and speak directly to the person doing the job.</p><h3>Get a price</h3><p>Use the quote form below or WhatsApp 07982 739925. You'll get a straight price back, usually within the hour during working hours.</p></div><p class=\"reveal\" style=\"margin-top:26px\">Also see: <a href=\"/man-and-van-south-london\">Man &amp; van</a> &middot; <a href=\"/business-collections-london\">Business collections</a> &middot; <a href=\"/areas\">Areas we cover</a></p></div></section>\n"
+  },
+  {
+   "path": "/man-and-van-south-london",
+   "title": "Man and Van in South London | Betterway Logistic",
+   "desc": "Man and van for furniture, single items and small moves across South East and South West London. One van, one driver, a fair upfront price.",
+   "body": "<section class=\"band\"><div class=\"wrap narrow\"><div class=\"head reveal\"><div class=\"eyebrow\">Man &amp; van</div><div class=\"rule\"></div><h1>Man and van in South London</h1><p class=\"sub\">Moving a sofa, a few items or a single room? One van, one driver, sorted.</p></div><div class=\"prose reveal\"><h3>Small moves made simple</h3><p>Furniture, single rooms, student moves and small house moves across South East and South West London, with the rest of Greater London on request.</p><h3>Upfront pricing</h3><p>Tell us the details and you'll get a straight price before anything is booked in, so there are no surprises on the day.</p><h3>Same day or booked ahead</h3><p>Same-day jobs where there's space in the diary, or book ahead for next-day collection.</p><h3>Get a price</h3><p>Use the quote form below or WhatsApp 07982 739925. You'll get a straight price back, usually within the hour during working hours.</p></div><p class=\"reveal\" style=\"margin-top:26px\">Also see: <a href=\"/same-day-courier-london\">Same-day courier</a> &middot; <a href=\"/business-collections-london\">Business collections</a> &middot; <a href=\"/areas\">Areas we cover</a></p></div></section>\n"
+  },
+  {
+   "path": "/business-collections-london",
+   "title": "Regular Business Collections, London | Betterway",
+   "desc": "Recurring courier collections for shops, studios and offices across London. Set up a regular route once and skip the re-booking.",
+   "body": "<section class=\"band\"><div class=\"wrap narrow\"><div class=\"head reveal\"><div class=\"eyebrow\">For businesses</div><div class=\"rule\"></div><h1>Regular collections for London businesses</h1><p class=\"sub\">Running the same route every week? Set up a regular collection and skip the re-booking.</p></div><div class=\"prose reveal\"><h3>Who it's for</h3><p>Shops, studios, workshops and offices that send stock, orders or documents on a regular schedule across London.</p><h3>How it works</h3><p>Agree the days, times and addresses once. We turn up on schedule, and you deal with the same person each time.</p><h3>Next-day and same-day too</h3><p>Alongside regular collections, one-off same-day and next-day jobs can be booked whenever you need them.</p><h3>Set it up</h3><p>Use the quote form below or WhatsApp 07982 739925. You'll get a straight price back, usually within the hour during working hours.</p></div><p class=\"reveal\" style=\"margin-top:26px\">Also see: <a href=\"/same-day-courier-london\">Same-day courier</a> &middot; <a href=\"/man-and-van-south-london\">Man &amp; van</a> &middot; <a href=\"/areas\">Areas we cover</a></p></div></section>\n"
+  },
+  {
+   "path": "/areas",
+   "title": "Areas We Cover: South & Greater London | Betterway",
+   "desc": "Betterway Logistic is based in South East and South West London: Greenwich, Lewisham, Bromley, Croydon, Wandsworth, Clapham, Wimbledon and more.",
+   "body": "<section class=\"band\"><div class=\"wrap narrow\"><div class=\"head reveal\"><div class=\"eyebrow\">Where we work</div><div class=\"rule\"></div><h1>Courier and man &amp; van across London</h1><p class=\"sub\">Based across South East and South West London, taking on jobs right across Greater London.</p></div><div class=\"prose reveal\"><h3>South East London</h3><p>Greenwich, Lewisham, Bromley, Croydon, Bexley, Southwark, Peckham and Catford.</p><h3>South West London</h3><p>Wandsworth, Clapham, Tooting, Wimbledon, Kingston, Richmond, Sutton and Merton.</p><h3>Everywhere else in London</h3><p>The rest of Greater London is covered on request. Not sure if we cover your area? Just ask in the chat or send a message and we'll let you know straight away.</p></div><p class=\"reveal\" style=\"margin-top:26px\">Also see: <a href=\"/same-day-courier-london\">Same-day courier</a> &middot; <a href=\"/man-and-van-south-london\">Man &amp; van</a> &middot; <a href=\"/business-collections-london\">Business collections</a></p></div></section>\n"
+  }
+ ],
+ "links": {
+  "file": "services.html",
+  "before": "<section class=\"band\" id=\"quote\">",
+  "html": "<section class=\"band\" style=\"padding-top:0\"><div class=\"wrap\"><p class=\"reveal\">More about: <a href=\"/same-day-courier-london\">same-day courier</a> &middot; <a href=\"/man-and-van-south-london\">man &amp; van</a> &middot; <a href=\"/business-collections-london\">business collections</a> &middot; <a href=\"/areas\">areas we cover</a></p></div></section>\n"
+ }
+}
