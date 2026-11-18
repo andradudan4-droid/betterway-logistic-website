@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#39e75f"/>
+      <stop offset="1" stop-color="#0f9b46"/>
+    </linearGradient>
+  </defs>
+  <rect width="120" height="120" rx="24" fill="#07100a"/>
+  <rect width="120" height="120" rx="24" fill="none" stroke="url(#g)" stroke-width="2" opacity="0.5"/>
+  <!-- motion swooshes -->
+  <path d="M14 44 L38 44" stroke="url(#g)" stroke-width="5" stroke-linecap="round" opacity="0.55"/>
+  <path d="M10 54 L34 54" stroke="url(#g)" stroke-width="5" stroke-linecap="round" opacity="0.8"/>
+  <!-- van body -->
+  <path d="M30 78 V54 a4 4 0 0 1 4-4 h30 V78" fill="none" stroke="#f5fff7" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M64 78 V60 h14 l10 10 v8" fill="none" stroke="url(#g)" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <line x1="64" y1="66" x2="78" y2="66" stroke="url(#g)" stroke-width="3"/>
+  <line x1="30" y1="78" x2="90" y2="78" stroke="#f5fff7" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="42" cy="82" r="6.5" fill="#07100a" stroke="#f5fff7" stroke-width="3.5"/>
+  <circle cx="78" cy="82" r="6.5" fill="#07100a" stroke="url(#g)" stroke-width="3.5"/>
+</svg>

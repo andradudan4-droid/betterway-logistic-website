@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://betterwaylogistic.co.uk/sitemap.xml
