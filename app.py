@@ -858,7 +858,7 @@ COVERAGE = """
 """
 
 HOME_PAGE = """
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>Betterway Logistic - Courier &amp; Delivery, South East &amp; South West London</title>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>Courier &amp; Man and Van in South London | Betterway</title>
 <meta name="description" content="Same-day and next-day courier, man-with-a-van and regular business collections across South East, South West and Greater London.">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 """ + BASE_STYLE + """</head><body>""" + NAV + """
